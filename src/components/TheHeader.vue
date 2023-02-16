@@ -8,7 +8,7 @@
     </div>  
     <ul class="categories" :class="{active: isActive}">
       <li>Smartfony</li>
-      <li>Smartwatch</li>
+      <li>Smartwatche</li>
       <li>Laptopy</li>
       <li>Desktopy</li>
       <li>Akcesoria</li>
@@ -16,11 +16,11 @@
       <div class="menu-container">
         <img src="../components/icons/logoPeople.svg" alt="logo-account" class="logo-account">
         <img src="../components/icons/logoBasket.svg" alt="logo-basket" class="logo-basket">
-       <button class="burger-categories" @click="clickBurger" :class="{active: isActive}" >
-         <div class="line"></div>
-         <div class="line"></div>
-         <div class="line"></div>
-       </button>
+        <button class="burger-categories" @click="clickBurger" :class="{active: isActive}" >
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
+        </button>
       </div>
     </header>
   </template>
@@ -44,7 +44,11 @@
     align-items: center;
     justify-content: space-around;
     padding: .5rem;
-    box-shadow: var(--shadowNav)
+    box-shadow: var(--shadowNav);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: white;
   }
   .logo{
     width: 10.1rem;
@@ -118,7 +122,7 @@
     header {
       flex-wrap: wrap;
       justify-content: space-between;
-      height: 10vh;
+      height: 11vh;
       padding-left: 2rem;
       padding-right: 2rem;  
     }
@@ -140,8 +144,9 @@
     .categories {
       position: absolute;
       left: 0;
-      top: 10vh;
-      background-color: transparent;
+      top: 11vh;
+      background-color: white;
+      width: 100vw;
       height: 90vh;
       padding: 2rem;
       flex-direction: column;
