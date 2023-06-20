@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 *,
 *::before,
@@ -8,7 +6,7 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 300;
 }
 
@@ -20,18 +18,26 @@ html {
 :root {
   /* Colors */
   --textLightColor: #cac8c8;
-  --mainColor: #00BFA6;
+  --mainColor: #00bfa6;
+  --secondMainColor: #0993ae;
+  --redColor: #f16060;
+  --footerBackgroundColor: #1e1e1e;
+  --textFooterColor: #898989;
 
   /* Colors Hover */
-  --mainHover: linear-gradient(269deg, rgba(0, 191, 166, 1) 29%, rgba(7, 113, 99, 1));
+  --mainHover: linear-gradient(
+    269deg,
+    rgba(0, 191, 166, 1) 29%,
+    rgba(7, 113, 99, 1)
+  );
   /* Colors Gradient */
-  --mainGradientColor: linear-gradient(301deg, rgba(0, 191, 166, 1) 29%, rgba(7, 113, 99, 1) 100%);
+  --mainGradientColor: linear-gradient(
+    301deg,
+    rgba(0, 191, 166, 1) 29%,
+    rgba(7, 113, 99, 1) 100%
+  );
   /* Box shadow style */
-  --shadowNav: rgb(0 0 0 / 8%) 0px 2px 4px 0px,
-                 rgb(0 0 0 / 8%) 0px 0px 2px 1px;
-  --shadowSearchInputHover: rgb(0 0 0 / 16%) 0px 4px 8px 0px, 
-                            rgb(0 0 0 / 8%) 0px 0px 2px 1px;
+  --shadowNav: rgb(0 0 0 / 8%) 0px 2px 4px 0px, rgb(0 0 0 / 8%) 0px 0px 2px 1px;
+  --shadowSearchInputHover: rgb(0 0 0 / 16%) 0px 4px 8px 0px,
+    rgb(0 0 0 / 8%) 0px 0px 2px 1px;
 }
-
-
-
