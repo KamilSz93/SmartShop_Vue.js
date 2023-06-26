@@ -1,6 +1,6 @@
 <template>
   <div class="product-item">
-    <div class="product-image">
+    <div class="box-product-image">
       <img :src="urlPictureItem" alt="product-image" />
     </div>
     <div class="product-name">{{ nameItem }}</div>
@@ -46,14 +46,17 @@ const store = useCartStore();
   padding: 1rem;
   border-radius: 0.5rem;
 }
-.product-image {
+.box-product-image {
   height: 19rem;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.product-image img {
+.box-product-image img {
   width: 22rem;
+  height: 19rem;
+  object-fit:cover;
+  border-radius: .5rem;
 }
 .product-name {
   margin-top: 0.5rem;

@@ -44,7 +44,8 @@ const store = useCartStore();
 .product-mini-image {
   height: 9rem;
   width: 10rem;
-  object-fit: contain;
+  object-fit: cover;
+  border-radius: 0.5rem;
 }
 .product-mini-name {
   margin-top: 1rem;

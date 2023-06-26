@@ -319,8 +319,8 @@ input[type="checkbox"]:before {
   position: absolute;
   width: 1.7rem;
   height: 1.7rem;
-  top: -0.2rem;
-  left: -0.2rem;
+  top: -0.1rem;
+  left: -0.1rem;
   border: 0.1rem solid var(--textLightColor);
   border-radius: 0.4rem;
   background-color: white;

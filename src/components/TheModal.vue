@@ -112,12 +112,12 @@ watch(
   height: 4rem;
   margin-top: 1.5rem;
   background-color: transparent;
-  border: 0.1rem solid var(--redColor);
+  border: 0.1rem solid #84a9e9;
   border-radius: 3rem;
   transition: 0.4s;
 }
 .modal-close-btn:hover {
   color: white;
-  background-color: var(--redColor);
+  background-color: #84a9e9;
 }
 </style>

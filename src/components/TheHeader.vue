@@ -21,16 +21,16 @@
       <li @click="changeActivSiteMenu">
         <RouterLink to="/smartphones">Smartfony</RouterLink>
       </li>
-      <li>
+      <li @click="changeActivSiteMenu">
         <RouterLink to="/emptyPage">Etui i pokrowce</RouterLink>
       </li>
-      <li>
+      <li @click="changeActivSiteMenu">
         <RouterLink to="/emptyPage">Folie ochronne</RouterLink>
       </li>
-      <li>
+      <li @click="changeActivSiteMenu">
         <RouterLink to="/emptyPage">Ladowarki</RouterLink>
       </li>
-      <li>
+      <li @click="changeActivSiteMenu">
         <RouterLink to="/emptyPage">Uchwyty</RouterLink>
       </li>
     </ul>

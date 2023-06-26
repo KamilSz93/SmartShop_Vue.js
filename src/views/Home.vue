@@ -57,7 +57,7 @@ import TheHeaderInfo from "../components/TheHeaderInfo.vue";
     grid-column: span 2;
   }
   .recently-add {
-    margin: 0 auto;
+    margin: 0;
     grid-column: span 5;
   }
 }
