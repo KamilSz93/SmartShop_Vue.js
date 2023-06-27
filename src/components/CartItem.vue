@@ -64,8 +64,9 @@ let countItem = computed(() => props.count);
   height: 10rem;
   width: 11rem;
   padding: 0.4rem;
-  margin: 0 -2.5rem;
-  object-fit: contain;
+  margin: 0 -2.2rem;
+  border-radius: 1rem;
+  object-fit: cover;
 }
 .name-item-cart {
   font-size: 3rem;

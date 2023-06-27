@@ -72,10 +72,10 @@
 
 <script setup>
 import { RouterLink } from "vue-router";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { computed } from "vue";
 import { useCartStore } from "../stores/cart";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import { useAccountStore } from "../stores/account";
 
 const props = defineProps(["quantityBasket"]);
@@ -107,6 +107,23 @@ function pushWithParams(e) {
     },
   });
 }
+
+onMounted(() => {
+  const header = document.querySelector("header");
+
+  let lastScrollTop;
+
+  window.addEventListener("scroll", () => {
+    let scrollTop = window.scrollY || document.documentElement.scrollTop;
+    console.log(window.scrollY);
+    if (scrollTop > lastScrollTop) {
+      header.style.top = "-13rem";
+    } else {
+      header.style.top = "0";
+    }
+    lastScrollTop = scrollTop;
+  });
+});
 </script>
 
 <style scoped>
@@ -121,6 +138,7 @@ header {
   top: 0;
   z-index: 1000;
   background-color: white;
+  transition: 1s linear;
 }
 .logo {
   width: 10.1rem;
@@ -149,7 +167,6 @@ img {
 .menu-container {
   display: flex;
 }
-
 .logo-basket {
   position: relative;
   height: 3.4rem;
@@ -280,6 +297,8 @@ img {
   }
 }
 @media only screen and (max-width: 480px) {
+  header {
+  }
   .categories {
     width: 100%;
   }

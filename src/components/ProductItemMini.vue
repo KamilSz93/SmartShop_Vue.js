@@ -42,8 +42,8 @@ const store = useCartStore();
   align-items: center;
 }
 .product-mini-image {
-  height: 9rem;
-  width: 10rem;
+  height: 10rem;
+  width: 11rem;
   object-fit: cover;
   border-radius: 0.5rem;
 }
