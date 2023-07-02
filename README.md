@@ -1,13 +1,13 @@
 # SmartShop E-commerce Website
 SmartShop is an e-commerce platform where you can sell your old smartphone or buy a new one.  The website is a fully functional shop where you can quickly find a product that you search for thanks to filters, sorting options and search bar.  You can add a product to cart. You must be logged in to sell your smartphone. If you do not have an account, you can quickly sign up. The website design is fully responsive and contains nice animations.
 
-- [Features](https://github.com/KamilSz93/Private_SmartShop#user-can)
-- [Live](https://github.com/KamilSz93/Private_SmartShop#live-preview)
-- [Built with](https://github.com/KamilSz93/Private_SmartShop#tech-stack)
-- [Screenshots](https://github.com/KamilSz93/Private_SmartShop#screenshots)
-- [To do](https://github.com/KamilSz93/Private_SmartShop#to-do)
-- [What I have learned](https://github.com/KamilSz93/Private_SmartShop#what-i-learned)
-- [How to run on a local machine](https://github.com/KamilSz93/Private_SmartShop#how-to-run-on-local-machine)
+- [Features](https://github.com/KamilSz93/SmartShop_Vue.js#user-can)
+- [Live](https://github.com/KamilSz93/SmartShop_Vue.js#live-preview)
+- [Built with](https://github.com/KamilSz93/SmartShop_Vue.js#tech-stack)
+- [Screenshots](https://github.com/KamilSz93/SmartShop_Vue.js#screenshots)
+- [To do](https://github.com/KamilSz93/SmartShop_Vue.js#to-do)
+- [What I have learned](https://github.com/KamilSz93/SmartShop_Vue.js#what-i-have-learned)
+- [How to run on a local machine](https://github.com/KamilSz93/SmartShop_Vue.js#how-to-run-on-a-local-machine)
 
 
 ## User can:
