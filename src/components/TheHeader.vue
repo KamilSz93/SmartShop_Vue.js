@@ -114,14 +114,16 @@ onMounted(() => {
   let lastScrollTop;
 
   window.addEventListener("scroll", () => {
-    let scrollTop = window.scrollY || document.documentElement.scrollTop;
-    console.log(window.scrollY);
-    if (scrollTop > lastScrollTop) {
-      header.style.top = "-13rem";
-    } else {
-      header.style.top = "0";
+    if (window.innerWidth < 480) {
+      let scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+      if (scrollTop > lastScrollTop) {
+        header.style.top = "-13rem";
+      } else {
+        header.style.top = "0";
+      }
+      lastScrollTop = scrollTop;
     }
-    lastScrollTop = scrollTop;
   });
 });
 </script>
@@ -297,8 +299,6 @@ img {
   }
 }
 @media only screen and (max-width: 480px) {
-  header {
-  }
   .categories {
     width: 100%;
   }
