@@ -9,10 +9,7 @@
     </div>
     <div class="product-price">{{ priceItem }} zł</div>
     <div class="product-add-to-basket">
-      <button
-        class="product-add-to-basket-btn"
-        @click="store.addCartItemStore(props.id)"
-      >
+      <button class="product-add-to-basket-btn" @click="(e) => addItem(e, props.id)">
         Dodaj do koszyka
       </button>
     </div>
@@ -20,7 +17,7 @@
 </template>
 
 <script setup>
-import { useCartStore } from "../stores/cart.js";
+import { addItem } from "../composables/showTooltipAddToBasket";
 
 const props = defineProps([
   "nameItem",
@@ -32,7 +29,6 @@ const props = defineProps([
   "id",
 ]);
 
-const store = useCartStore();
 </script>
 
 <style>
@@ -55,8 +51,8 @@ const store = useCartStore();
 .box-product-image img {
   width: 22rem;
   height: 19rem;
-  object-fit:cover;
-  border-radius: .5rem;
+  object-fit: cover;
+  border-radius: 0.5rem;
 }
 .product-name {
   margin-top: 0.5rem;

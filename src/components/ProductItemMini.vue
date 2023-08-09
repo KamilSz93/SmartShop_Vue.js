@@ -11,7 +11,7 @@
     <div class="product-mini-price">{{ priceItem }} zł</div>
     <button
       class="product-mini-add-to-basket-btn"
-      @click="store.addCartItemStore(props.id)"
+      @click="(e) => addItem(e, props.id)"
     >
       Dodaj do koszyka
     </button>
@@ -19,11 +19,9 @@
 </template>
 
 <script setup>
-import { useCartStore } from "../stores/cart.js";
+import { addItem } from "../composables/showTooltipAddToBasket";
 
 const props = defineProps(["nameItem", "urlPictureItem", "priceItem", "id"]);
-
-const store = useCartStore();
 </script>
 
 <style>

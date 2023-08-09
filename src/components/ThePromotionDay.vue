@@ -13,7 +13,9 @@
         <div class="old-price">{{ `${items["price"]} zł` }}</div>
         <div class="new-price">{{ `${promotionPrice} zł` }}</div>
       </div>
-      <button class="product-add-to-basket-btn">Kup teraz</button>
+      <button class="product-add-to-basket-btn" @click="(e) => addItem(e, id)">
+        Kup teraz
+      </button>
       <div class="countdown">
         <p>Na zakup masz jeszcze:</p>
         <div class="timer">
@@ -39,6 +41,9 @@
 import { onMounted, ref } from "vue";
 import { useGetItemStore } from "../stores/items";
 import { computed } from "@vue/reactivity";
+import { addItem } from "../composables/showTooltipAddToBasket";
+
+const id = "-NPEzuY07LnOmfjMRQ2k";
 
 const store = useGetItemStore();
 
@@ -53,7 +58,7 @@ const promotionPrice = computed(() =>
 onMounted(async () => {
   await store.getDataItems();
 
-  items.value = store.compStoreData["-NPEzuY07LnOmfjMRQ2k"];
+  items.value = store.compStoreData[id];
 });
 
 //* Timer *//
@@ -158,8 +163,6 @@ h2 {
   max-width: 30rem;
   max-height: 22rem;
 }
-.product-name {
-}
 .prices {
   display: flex;
   justify-content: space-evenly;
@@ -178,7 +181,7 @@ h2 {
   color: var(--redColor);
 }
 .product-add-to-basket-btn {
-  width: calc(100% - 2rem);
+  width: 100%;
   height: 3.5rem;
   background-color: transparent;
   border: 0.1rem solid var(--mainColor);
