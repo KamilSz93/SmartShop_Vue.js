@@ -4,14 +4,14 @@
       <img src="../assets/smartfon-picture.svg" alt="smartfon-picture" />
     </div>
     <div class="title">
-      Smartfony <span> ({{ quantity }})</span>
-      <button class="site-bar-button" @click="clickButton">
+      Smartfony <span> ({{ items.length }})</span>
+      <button class="site-bar-button" @click="clickSiteBarButton">
         Sortowane i filtrowanie
       </button>
     </div>
     <div class="site-bar" :class="{ active: isActive }">
       <div class="sort">
-        <button class="arrow-site-bar" @click="clickButton">
+        <button class="arrow-site-bar" @click="clickSiteBarButton">
           <img
             src="../components/icons/iconArrowSitebar.svg"
             class="arrow-icon"
@@ -35,7 +35,7 @@
               name="apple"
               id="apple"
               value="apple"
-              @input="(event) => checkedProducentSet(event)"
+              @input="(e) => checkedProducentSet(e)"
             />
             <label for="apple">Apple(szt)</label>
           </div>
@@ -44,7 +44,7 @@
               type="checkbox"
               id="samsung"
               value="samsung"
-              @input="(event) => checkedProducentSet(event)"
+              @input="(e) => checkedProducentSet(e)"
             />
             <label for="samsung">Samsung(szt)</label>
           </div>
@@ -54,7 +54,7 @@
               name="xiaomi"
               id="xiaomi"
               value="xiaomi"
-              @input="(event) => checkedProducentSet(event)"
+              @input="(e) => checkedProducentSet(e)"
             />
             <label for="xiaomi">Xiaomi(szt)</label>
           </div>
@@ -64,7 +64,7 @@
               name="realme"
               id="realme"
               value="realme"
-              @input="(event) => checkedProducentSet(event)"
+              @input="(e) => checkedProducentSet(e)"
             />
             <label for="realme">Realme(szt)</label>
           </div>
@@ -75,16 +75,14 @@
             type="number"
             placeholder="od  "
             name="fromPrice"
-            v-model="fromPrice"
-            @input="sortAndFilter"
+            @input="(e) => fromPriceSet(e)"
           />
           <span>-</span>
           <input
             type="number"
             placeholder="do"
             name="toPrice"
-            v-model="toPrice"
-            @input="sortAndFilter"
+            @input="(e) => toPriceSet(e)"
           />
         </div>
       </div>
@@ -92,7 +90,7 @@
 
     <div class="content" v-if="emptyPointSmartfon">
       <ProductItem
-        v-for="(item, nodeId) in refDataSmartfons"
+        v-for="(item, nodeId) in items"
         :key="nodeId"
         :urlPictureItem="item.urlPicture"
         :nameItem="item.name"
@@ -104,9 +102,7 @@
       >
       </ProductItem>
     </div>
-    <div class="emptyPoint" v-else>
-      Kategoria smartfony nie posiada danych elementów
-    </div>
+    <div class="emptyPoint" v-else>Nie znaleziono produktów</div>
   </div>
 </template>
 
@@ -115,116 +111,107 @@ import { onMounted, computed, ref } from "vue";
 import { useGetItemStore } from "../stores/items";
 import ProductItem from "../components/ProductItem.vue";
 
-const store = useGetItemStore();
-
 let isActive = ref(false);
 
-function clickButton() {
-  isActive.value = !isActive.value;
-}
+const clickSiteBarButton = () => (isActive.value = !isActive.value);
 
-const refDataSmartfons = ref({});
-let storeDataSmartfons = {};
+let response;
+
+let items = ref({});
+
+const store = useGetItemStore();
 
 onMounted(async () => {
-  await store.getDataItems();
-
-  refDataSmartfons.value = store.compStoreData;
-  storeDataSmartfons = store.storeData.items;
+  response = await store.getDataItems();
+  changeItems(response);
 });
+
+const changeItems = (response) => {
+  items.value = [];
+
+  Object.keys(response).forEach((key) => {
+    items.value.push({ id: key, ...response[key] });
+  });
+
+  return items.value;
+};
 
 /**  Filter and sort items **/
 let checkedProducent = [];
 let fromPrice;
 let toPrice;
-let sortCondition = "popular";
+let sortCondition;
+
+const sortItems = () => {
+  let sortedItems = changeItems(response);
+
+  sortCondition === "theCheapest" &&
+    sortedItems.sort((a, b) => a.price - b.price);
+  sortCondition === "theMostExpensive" &&
+    sortedItems.sort((a, b) => b.price - a.price);
+
+  filterByProducent(sortedItems);
+};
+
+const filterByProducent = (sortedItems) => {
+  let filterByProducent = sortedItems;
+  if (checkedProducent.length) {
+    filterByProducent = sortedItems.filter(filterByCheckProducent);
+  }
+  filterByPrice(filterByProducent);
+};
+
+const filterByCheckProducent = (el) => {
+  let empty = false;
+  checkedProducent.forEach((producent) => {
+    el.name.toLowerCase().includes(producent.toLowerCase()) && (empty = true);
+  });
+  return empty;
+};
+
+const filterByPrice = (filterByProducent) => {
+  !fromPrice && (fromPrice = 0);
+  !toPrice && (toPrice = 100000);
+
+  let result;
+  if (fromPrice <= toPrice) {
+    result = filterByProducent.filter(
+      (el) =>
+        parseFloat(fromPrice) <= parseFloat(el.price) &&
+        parseFloat(el.price) <= parseFloat(toPrice)
+    );
+  } else {
+    result = [];
+  }
+  items.value = result;
+};
 
 const checkedProducentSet = (e) => {
   e.target.checked
     ? checkedProducent.push(e.target.value)
     : checkedProducent.splice(checkedProducent.indexOf(e.target.value), 1);
-  sortAndFilter();
+  sortItems();
 };
 
 const sortConditionSet = (e) => {
   sortCondition = e.target.value;
-  sortAndFilter();
+  sortItems();
 };
 
-const sortAndFilter = () => {
-  isActive.value = !isActive.value;
-
-  let arrayDataSmartfons = Object.entries(storeDataSmartfons);
-
-  filterByProducent(arrayDataSmartfons, (filterArrayData) => {
-    filterByPrice(filterArrayData, (filterByPriceArrayData) => {
-      refDataSmartfons.value = Object.fromEntries(
-        sortItem(filterByPriceArrayData)
-      );
-    });
-  });
+const fromPriceSet = (e) => {
+  fromPrice = parseInt(e.target.value);
+  sortItems();
 };
 
-const filterByProducent = (arrayData, callback) => {
-  if (checkedProducent.length > 0) {
-    const filterArrayData = arrayData.filter(checkFilter);
-    callback(filterArrayData);
-  } else {
-    callback(Object.entries(storeDataSmartfons));
-  }
+const toPriceSet = (e) => {
+  toPrice = parseInt(e.target.value);
+  sortItems();
 };
 
-const checkFilter = (filterArray) => {
-  for (let i = 0; i < checkedProducent.length; i++) {
-    if (
-      filterArray[1]["name"]
-        .toLowerCase()
-        .includes(checkedProducent[i].toLowerCase())
-    )
-      return filterArray;
-  }
-};
+/**  check empty state   **/
 
-const filterByPrice = (filterArrayData, callback) => {
-  let filterByPriceArrayData = filterArrayData;
-  if (fromPrice < toPrice) {
-    filterByPriceArrayData = filterArrayData.filter(
-      (el) =>
-        parseFloat(fromPrice) <= parseFloat(el[1]["price"]) &&
-        parseFloat(toPrice) >= parseFloat(el[1]["price"])
-    );
-    callback(filterByPriceArrayData);
-  } else if (fromPrice == toPrice) {
-    callback(filterByPriceArrayData);
-  } else {
-    filterByPriceArrayData = [];
-    callback(filterByPriceArrayData);
-  }
-};
+const emptyPointSmartfon = computed(() => items.value.length);
 
-const sortItem = (filterByPriceArrayData) => {
-  if (sortCondition === "theCheapest")
-    return filterByPriceArrayData.sort((a, b) => a[1]["price"] - b[1]["price"]);
-  else if (sortCondition === "theMostExpensive")
-    return filterByPriceArrayData.sort((a, b) => b[1]["price"] - a[1]["price"]);
-  else if (sortCondition === "popular")
-    return filterByPriceArrayData.filter(sortMostPopular);
-};
-
-const sortMostPopular = (sortArray) => {
-  let refArray = Object.entries(storeDataSmartfons);
-  for (let i = 0; i < refArray.length; i++) {
-    if (refArray[i][0] == sortArray[0]) return sortArray;
-  }
-};
-
-/**  Set quantity Items and  **/
-const quantity = computed(() =>
-  Object.keys(refDataSmartfons.value).length > 0
-    ? Object.keys(refDataSmartfons.value).length
-    : 0
-);
-const emptyPointSmartfon = computed(() => (quantity.value ? true : false));
 </script>
 
 <style scoped>

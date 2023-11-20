@@ -3,7 +3,6 @@ import { useCartStore } from "../stores/cart";
 export const addItem = function (e, id) {
   const addBtn = e.target;
 
-  console.log(e.layerX);
   const span = document.createElement("span");
 
   span.innerText = "Dodano do koszyka";
