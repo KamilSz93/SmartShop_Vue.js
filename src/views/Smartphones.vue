@@ -98,7 +98,7 @@
         :ramItem="item.ram"
         :processorItem="item.processor"
         :priceItem="item.price"
-        :id="nodeId"
+        :id="item.id"
       >
       </ProductItem>
     </div>
@@ -123,18 +123,9 @@ const store = useGetItemStore();
 
 onMounted(async () => {
   response = await store.getDataItems();
-  changeItems(response);
+
+  items.value = response;
 });
-
-const changeItems = (response) => {
-  items.value = [];
-
-  Object.keys(response).forEach((key) => {
-    items.value.push({ id: key, ...response[key] });
-  });
-
-  return items.value;
-};
 
 /**  Filter and sort items **/
 let checkedProducent = [];
@@ -143,7 +134,7 @@ let toPrice;
 let sortCondition;
 
 const sortItems = () => {
-  let sortedItems = changeItems(response);
+  let sortedItems = response;
 
   sortCondition === "theCheapest" &&
     sortedItems.sort((a, b) => a.price - b.price);
@@ -211,7 +202,6 @@ const toPriceSet = (e) => {
 /**  check empty state   **/
 
 const emptyPointSmartfon = computed(() => items.value.length);
-
 </script>
 
 <style scoped>
@@ -306,8 +296,8 @@ input[type="checkbox"]:before {
   position: absolute;
   width: 1.7rem;
   height: 1.7rem;
-  top: -0.1rem;
-  left: -0.1rem;
+  top: -0.2rem;
+  left: -0.2rem;
   border: 0.1rem solid var(--textLightColor);
   border-radius: 0.4rem;
   background-color: white;

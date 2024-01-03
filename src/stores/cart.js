@@ -7,40 +7,45 @@ export const useCartStore = defineStore("cart", () => {
 
   const totalPrice = computed(() =>
     cartItems.value.reduce((acc, curr) => {
-      return acc + curr[1].price * curr[1].count;
+      return acc + curr.price * curr.count;
     }, 0)
   );
 
-  function addCartItemStore(id) {
-    let addItem = cartItems.value.find((el) => el[0] === id.toString());
+  async function addCartItemStore(id) {
+    const store = useGetItemStore();
+    const storeItems = await store.getDataItems();
 
-    if (addItem) {
-      addItem[1].count++;
+    if (!cartItems.value.length) {
+    
+      cartItems.value.push(storeItems.find((el) => el.id === id.toString()));
     } else {
-      const storeItem = useGetItemStore();
+      let addedItem = cartItems.value.find((el) => el.id === id.toString());
 
-      const arrStoreItem = Object.entries(storeItem.compStoreData);
-
-      cartItems.value.push(arrStoreItem.find((el) => el[0] === id.toString()));
+      if (addedItem) {
+        addedItem.count++;
+      } else {
+        cartItems.value.push(storeItems.find((el) => el.id === id.toString()));
+      }
     }
+    localStorage.setItem("CART_STORAGE", JSON.stringify(cartItems.value));
   }
 
   function removeCartItem(id) {
-    let findItem = cartItems.value.find((el) => el[0] === id.toString());
-    findItem[1].count = 1;
-
-    let result = cartItems.value.filter((el) => el[0] !== id.toString());
-    cartItems.value = result;
+    cartItems.value = cartItems.value.filter((el) => el.id !== id.toString());
+    localStorage.setItem("CART_STORAGE", JSON.stringify(cartItems.value));
   }
 
   function increaseAmountItem(id) {
-    let result = cartItems.value.find((el) => el[0] === id.toString());
-    result[1].count++;
+    let result = cartItems.value.find((el) => el.id === id.toString());
+
+    result.count++;
+    localStorage.setItem("CART_STORAGE", JSON.stringify(cartItems.value));
   }
 
   function decreaseAmountItem(id) {
-    let result = cartItems.value.find((el) => el[0] === id.toString());
-    result[1].count > 1 ? result[1].count-- : (result[1].count = 1);
+    let result = cartItems.value.find((el) => el.id === id.toString());
+    result.count > 1 ? result.count-- : (result.count = 1);
+    localStorage.setItem("CART_STORAGE", JSON.stringify(cartItems.value));
   }
 
   return {

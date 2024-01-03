@@ -25,7 +25,7 @@
           :ramItem="item.ram"
           :processorItem="item.processor"
           :priceItem="item.price"
-          :id="nodeId"
+          :id="item.id"
         >
         </ProductItemMini>
       </div>
@@ -34,23 +34,21 @@
 </template>
 
 <script setup>
-import ProductItemMini from "./ProductItemMini.vue";
 import { useGetItemStore } from "../stores/items";
 import { onMounted, ref } from "vue";
+import ProductItemMini from "./ProductItemMini.vue";
 
-let productItems = ref({});
+let response;
 
 let recentlyAddProducts = ref({});
 
-onMounted(async () => {
-  const storeItem = useGetItemStore();
-  await storeItem.getDataItems();
-  productItems.value = storeItem.storeData.items;
+const storeItem = useGetItemStore();
 
-  recentlyAddProducts.value = Object.fromEntries(
-    Object.entries(productItems.value).filter(
-      (el, i, array) => i > array.length - 11
-    )
+onMounted(async () => {
+  response = await storeItem.getDataItems();
+
+  recentlyAddProducts.value = response.filter(
+    (el, i, arr) => i > arr.length - 11
   );
 
   let sliderSlides = [

@@ -16,6 +16,15 @@ import TheMainSlider from "../components/TheMainSlider.vue";
 import TheForYouSlider from "../components/TheForYouSlider.vue";
 import TheRecentlyAdd from "../components/TheRecentlyAdd.vue";
 import TheHeaderInfo from "../components/TheHeaderInfo.vue";
+import { onMounted } from "vue";
+import { useGetItemStore } from "../stores/items";
+
+const store = useGetItemStore();
+
+onMounted(async () => {
+  await store.getDataItems();
+});
+
 </script>
 
 <style scoped>

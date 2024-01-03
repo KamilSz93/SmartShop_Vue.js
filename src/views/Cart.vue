@@ -9,15 +9,15 @@
     <div class="cart-item-container">
       <CartItem
         v-for="itemCart in storeCartItems"
-        :url="itemCart[1]['urlPicture']"
-        :name="itemCart[1]['name']"
-        :price="itemCart[1]['price']"
-        :id="itemCart[0]"
-        :count="itemCart[1]['count']"
+        :url="itemCart.urlPicture"
+        :name="itemCart.name"
+        :price="itemCart.price"
+        :id="itemCart.id"
+        :count="itemCart.count"
       />
     </div>
     <div class="summary">
-      <div class="summary-title">Do zapłaty: {{ store.totalPrice }}</div>
+      <div class="summary-title">Do zapłaty: {{ totalPrice }}</div>
       <button class="summary-button">Zapłać</button>
     </div>
     <div class="payment-and-delivery">
@@ -64,6 +64,8 @@ import CartItem from "../components/CartItem.vue";
 const store = useCartStore();
 
 const storeCartItems = computed(() => store.cartItems);
+
+const totalPrice = computed (() => store.totalPrice);
 
 const amountItemInCart = computed(() => store.cartItems.length);
 

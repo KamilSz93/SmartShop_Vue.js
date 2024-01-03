@@ -1,7 +1,7 @@
 <template>
   <div class="product-item">
-    <div class="box-product-image">
-      <img :src="urlPictureItem" alt="product-image" />
+    <div class="product-box-image">
+      <img :src="urlPictureItem" class="product-image" alt="product-image" />
     </div>
     <div class="product-name">{{ nameItem }}</div>
     <div class="product-description">
@@ -9,7 +9,7 @@
     </div>
     <div class="product-price">{{ priceItem }} zł</div>
     <div class="product-add-to-basket">
-      <button class="product-add-to-basket-btn" @click="(e) => addItem(e, props.id)">
+      <button class="product-add-to-basket-btn" @click="(e) => addItem(e)">
         Dodaj do koszyka
       </button>
     </div>
@@ -17,7 +17,8 @@
 </template>
 
 <script setup>
-import { addItem } from "../composables/showTooltipAddToBasket";
+import { useCartStore } from "../stores/cart.js";
+import { onAddItemTooltip } from "../composables/showTooltipAddToBasket";
 
 const props = defineProps([
   "nameItem",
@@ -29,9 +30,15 @@ const props = defineProps([
   "id",
 ]);
 
+const store = useCartStore();
+
+const addItem = (e) => {
+  onAddItemTooltip(e);
+  store.addCartItemStore(props.id);
+};
 </script>
 
-<style>
+<style scoped>
 .product-item {
   position: relative;
   width: 26rem;
@@ -42,17 +49,16 @@ const props = defineProps([
   padding: 1rem;
   border-radius: 0.5rem;
 }
-.box-product-image {
-  height: 19rem;
+.product-box-image {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.box-product-image img {
-  width: 22rem;
-  height: 19rem;
-  object-fit: cover;
-  border-radius: 0.5rem;
+.product-image {
+  max-height: 19rem;
+  width: 100vw;
+  object-fit: contain;
+
 }
 .product-name {
   margin-top: 0.5rem;
@@ -79,6 +85,7 @@ const props = defineProps([
   margin-right: auto;
 }
 .product-add-to-basket-btn {
+  position: relative;
   width: 100%;
   height: 3.5rem;
   background-color: transparent;

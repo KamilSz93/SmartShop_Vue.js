@@ -19,7 +19,7 @@
           :ramItem="item.ram"
           :processorItem="item.processor"
           :priceItem="item.price"
-          :id="nodeId"
+          :id="item.id"
         >
         </ProductItem>
       </div>
@@ -32,12 +32,14 @@ import ProductItem from "./ProductItem.vue";
 import { useGetItemStore } from "../stores/items";
 import { onMounted, ref } from "vue";
 
+let response
+
 let productItems = ref({});
 
 onMounted(async () => {
   const storeItem = useGetItemStore();
-  await storeItem.getDataItems();
-  productItems.value = storeItem.storeData.items;
+  response =  await storeItem.getDataItems();
+  productItems.value = response;
 
   let sliderSlides = [...document.querySelectorAll(".for-you-slider-slides")];
   let prevBtn = [...document.querySelectorAll(".btn-prev-slide-for-you")];

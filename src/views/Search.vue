@@ -30,7 +30,7 @@
 
 <script setup>
 import { useRoute } from "vue-router";
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { useGetItemStore } from "../stores/items";
 import ProductItem from "../components/ProductItem.vue";
 
@@ -51,16 +51,18 @@ watch(
   }
 );
 
-const searchItems = (phase) => {
+const searchItems = async (phase) => {
+  itemView = await storeItem.getDataItems();
+
   searchPhase.value = phase;
 
-  let result = Object.entries(storeItem.storeData.items).filter((el) =>
-    el[1].name.toLowerCase().includes(phase.toLowerCase().trim())
+  let result = itemView.filter((el) =>
+    el.name.toLowerCase().includes(phase.toLowerCase().trim())
   );
 
   countFoundProducts = result.length;
 
-  itemView = Object.fromEntries(result);
+  itemView = result;
 };
 
 searchItems(route.params.keyword);

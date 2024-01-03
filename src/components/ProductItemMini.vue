@@ -9,19 +9,25 @@
     </div>
     <div class="product-mini-name">{{ nameItem }}</div>
     <div class="product-mini-price">{{ priceItem }} zł</div>
-    <button
-      class="product-mini-add-to-basket-btn"
-      @click="(e) => addItem(e, props.id)"
-    >
+    <button class="product-mini-add-to-basket-btn" @click="(e) => addItem(e)">
       Dodaj do koszyka
     </button>
   </div>
 </template>
 
 <script setup>
-import { addItem } from "../composables/showTooltipAddToBasket";
+import { useCartStore } from "../stores/cart.js";
+import { onAddItemTooltip } from "../composables/showTooltipAddToBasket";
 
 const props = defineProps(["nameItem", "urlPictureItem", "priceItem", "id"]);
+
+const store = useCartStore();
+
+const addItem = (e) => {
+  onAddItemTooltip(e)
+  store.addCartItemStore(props.id);
+};
+
 </script>
 
 <style>
@@ -40,10 +46,9 @@ const props = defineProps(["nameItem", "urlPictureItem", "priceItem", "id"]);
   align-items: center;
 }
 .product-mini-image {
-  height: 10rem;
-  width: 11rem;
-  object-fit: cover;
-  border-radius: 0.5rem;
+  height: 9rem;
+  width: 10rem;
+  object-fit: contain;
 }
 .product-mini-name {
   margin-top: 1rem;

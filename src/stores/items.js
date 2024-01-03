@@ -5,14 +5,14 @@ import axios from "axios";
 
 export const useGetItemStore = defineStore("items", () => {
   /**State **/
-  const storeData = reactive({ items: "" });
+  let storeData;
 
   const noPicture = reactive({
     item: "https://firebasestorage.googleapis.com/v0/b/gamer-7db00.appspot.com/o/images%2Fno-picture.jpg?alt=media&token=3955b1cd-7d91-4c83-b323-2ef952074875",
   });
 
   /*Getters */
-  let compStoreData = computed(() => storeData.items);
+  let compStoreData = computed(() => storeData);
 
   /**Actions **/
   // dowlands url picture with firebase cloud storage
@@ -50,11 +50,17 @@ export const useGetItemStore = defineStore("items", () => {
   // getDataItems using axios with realtime database
   async function getDataItems() {
     try {
-      let response = await axios.get(
+      let { data } = await axios.get(
         "https://gamer-7db00-default-rtdb.firebaseio.com/smartfons.json"
       );
-      storeData.items = response.data;
-      return response.data;
+
+      let items = [];
+
+      Object.keys(data).forEach((key) => {
+        items.push({ id: key, ...data[key] });
+      });
+      storeData = items;
+      return items;
     } catch (error) {
       console.log(error);
     }

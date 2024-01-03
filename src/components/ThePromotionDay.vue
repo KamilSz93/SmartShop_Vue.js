@@ -5,15 +5,15 @@
       <h2>Promocja Dnia</h2>
       <img
         class="product-picture"
-        :src="items['urlPicture']"
+        :src="items.urlPicture"
         alt="img-promotion"
       />
-      <div class="product-name">{{ items["name"] }}</div>
+      <div class="product-name">{{ items.name }}</div>
       <div class="prices">
-        <div class="old-price">{{ `${items["price"]} zł` }}</div>
+        <div class="old-price">{{ `${items.price} zł` }}</div>
         <div class="new-price">{{ `${promotionPrice} zł` }}</div>
       </div>
-      <button class="product-add-to-basket-btn" @click="(e) => addItem(e, id)">
+      <button class="product-add-to-basket-btn" @click="(e) => addItem(e)">
         Kup teraz
       </button>
       <div class="countdown">
@@ -40,14 +40,17 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useGetItemStore } from "../stores/items";
+import { useCartStore } from "../stores/cart.js";
 import { computed } from "@vue/reactivity";
-import { addItem } from "../composables/showTooltipAddToBasket";
-
-const id = "-NPEzuY07LnOmfjMRQ2k";
+import { onAddItemTooltip } from "../composables/showTooltipAddToBasket";
 
 const store = useGetItemStore();
 
+const storeCard = useCartStore();
+
 const items = ref({});
+
+let response;
 
 const promotionPrice = computed(() =>
   Math.floor(
@@ -56,10 +59,15 @@ const promotionPrice = computed(() =>
 );
 
 onMounted(async () => {
-  await store.getDataItems();
+  response = await store.getDataItems();
 
-  items.value = store.compStoreData[id];
+  items.value = response[2]; //["-NPEzuY07LnOmfjMRQ2k"];
 });
+
+const addItem = (e) => {
+  onAddItemTooltip(e);
+  storeCard.addCartItemStore(items.value.id);
+};
 
 //* Timer *//
 const h = ref();
@@ -163,6 +171,8 @@ h2 {
   max-width: 30rem;
   max-height: 22rem;
 }
+.product-name {
+}
 .prices {
   display: flex;
   justify-content: space-evenly;
@@ -181,7 +191,7 @@ h2 {
   color: var(--redColor);
 }
 .product-add-to-basket-btn {
-  width: 100%;
+  width: calc(100% - 2rem);
   height: 3.5rem;
   background-color: transparent;
   border: 0.1rem solid var(--mainColor);
